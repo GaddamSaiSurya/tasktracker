@@ -2,9 +2,7 @@ package com.sai.tasktracker.controller;
 
 import com.sai.tasktracker.entity.Task;
 import com.sai.tasktracker.service.TaskService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,10 @@ public class TaskController {
     @GetMapping
     public List<Task> getAllTasks(){
         return taskService.getAllTasks();
+    }
+
+    @PostMapping
+    public void addTasks(@RequestBody Task task){
+        taskService.addTasks(task);
     }
 }
