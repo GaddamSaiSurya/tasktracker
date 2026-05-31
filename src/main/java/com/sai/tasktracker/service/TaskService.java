@@ -4,6 +4,7 @@ import com.sai.tasktracker.entity.Task;
 import com.sai.tasktracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -20,5 +21,9 @@ public class TaskService {
 
     public void addTasks(Task task){
         taskRepository.save(task);
+    }
+
+    public Optional<Task> getById(Long id){
+        return taskRepository.findById(id);
     }
 }
