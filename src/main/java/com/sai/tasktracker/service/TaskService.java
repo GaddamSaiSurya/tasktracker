@@ -3,6 +3,8 @@ package com.sai.tasktracker.service;
 import com.sai.tasktracker.entity.Task;
 import com.sai.tasktracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +31,21 @@ public class TaskService {
 
     public void deleteTask(Long id){
         taskRepository.deleteById(id);
+    }
+
+    public void updateTask(
+            Task updatedTask, Long id){
+
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isPresent()){
+            Task existingTask = task.get();
+            existingTask.setTitle(updatedTask.getTitle());
+            existingTask.setDescription(updatedTask.getDescription());
+            existingTask.setCompleted(updatedTask.isCompleted());
+            existingTask.setDueDate(updatedTask.getDueDate());
+
+            taskRepository.save(existingTask);
+        }
+
     }
 }
