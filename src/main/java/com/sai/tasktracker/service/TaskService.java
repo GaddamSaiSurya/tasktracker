@@ -1,6 +1,7 @@
 package com.sai.tasktracker.service;
 
 import com.sai.tasktracker.entity.Task;
+import com.sai.tasktracker.exception.TaskNotFoundException;
 import com.sai.tasktracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public Optional<Task> getById(Long id){
-        return taskRepository.findById(id);
+    public Task getById(Long id){
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public void deleteTask(Long id){
@@ -36,16 +37,11 @@ public class TaskService {
     public void updateTask(
             Task updatedTask, Long id){
 
-        Optional<Task> task = taskRepository.findById(id);
-        if(task.isPresent()){
-            Task existingTask = task.get();
-            existingTask.setTitle(updatedTask.getTitle());
-            existingTask.setDescription(updatedTask.getDescription());
-            existingTask.setCompleted(updatedTask.isCompleted());
-            existingTask.setDueDate(updatedTask.getDueDate());
-
-            taskRepository.save(existingTask);
-        }
-
+        Task existingTask = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        existingTask.setTitle(updatedTask.getTitle());
+        existingTask.setDescription(updatedTask.getDescription());
+        existingTask.setCompleted(updatedTask.isCompleted());
+        existingTask.setDueDate(updatedTask.getDueDate());
+        taskRepository.save(existingTask);
     }
 }

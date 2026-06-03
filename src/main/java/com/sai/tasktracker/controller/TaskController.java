@@ -2,12 +2,10 @@ package com.sai.tasktracker.controller;
 
 import com.sai.tasktracker.entity.Task;
 import com.sai.tasktracker.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -25,12 +23,12 @@ public class TaskController {
     }
 
     @PostMapping
-    public void addTasks(@RequestBody Task task){
+    public void addTasks(@RequestBody @Valid Task task){
         taskService.addTasks(task);
     }
 
     @GetMapping("/{id}")
-    public Optional<Task> getById(@PathVariable Long id){
+    public Task getById(@PathVariable Long id){
         return taskService.getById(id);
     }
 
@@ -40,7 +38,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public void updateTask(@RequestBody Task updatedTask, @PathVariable Long id){
+    public void updateTask(@RequestBody @Valid Task updatedTask, @PathVariable Long id){
         taskService.updateTask(updatedTask, id);
     }
 
